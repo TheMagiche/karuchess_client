@@ -54,7 +54,7 @@ export default {
         .then(response => {
           localStorage.setItem("jwtToken", response.data.token);
           this.$router.push({
-            name: "Home"
+            name: "Profile"
           });
         })
         .catch(e => {
