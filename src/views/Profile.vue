@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>Admin</h1>
-    <p>This page can only be accessed by administrators.</p>
+    <h1>Profile</h1>
+    <p>Welcome User.</p>
+    <p>{{ lichess }}</p>
     <!-- <div>
       All users from secure (admin only) api end point:
       <ul v-if="users.length">
@@ -14,17 +15,34 @@
 <script>
 // import { authenticationService, userService } from "../api/_services";
 
+import { LichessAPIService } from "../api/lichessAPIservice";
+const lichessapiService = new LichessAPIService();
 export default {
-  name: "Admin",
+  name: "Profile",
   data() {
     return {
       // user: authenticationService.currentUserValue,
       // users: []
-      lichess_user_data: {}
+      lichess: {}
     };
   },
-  created() {
+
+  methods: {
+    getLichessData() {
+      let username = "themagiche";
+      lichessapiService
+        .getuser(username)
+        .then(data => {
+          // eslint-disable-next-line
+          console.log(data);
+          this.lichess = data;
+        })
+        .catch();
+    }
+  },
+  mounted() {
     // userService.getAll().then(users => (this.users = users));
+    this.getLichessData();
   }
 };
 </script>

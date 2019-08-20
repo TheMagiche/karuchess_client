@@ -1,6 +1,6 @@
 <template>
   <div class="Blogs">
-    <h1>Edit Blog</h1>
+    <!-- <h1>Edit Blog</h1>
     <div class="form">
       <div>
         <input type="text" name="title" placeholder="TITLE" v-model="title" />
@@ -11,40 +11,40 @@
       <div>
         <button class="app_Blog_btn" @click="updateBlog">Update</button>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 import BlogsService from "../api/services/BlogsService";
 export default {
-  name: "EditBlog",
-  data() {
-    return {
-      title: "",
-      description: ""
-    };
-  },
-  mounted() {
-    this.getBlog();
-  },
-  methods: {
-    async getBlog() {
-      const response = await BlogsService.getBlog({
-        id: this.$route.params.id
-      });
-      this.title = response.data.title;
-      this.description = response.data.description;
-    },
-    async updateBlog() {
-      await BlogsService.updateBlog({
-        id: this.$route.params.id,
-        title: this.title,
-        description: this.description
-      });
-      this.$router.push({ name: "Blogs" });
-    }
-  }
+  name: "EditBlog"
+  // data() {
+  //   return {
+  //     title: "",
+  //     description: ""
+  //   };
+  // },
+  // mounted() {
+  //   this.getBlog();
+  // },
+  // methods: {
+  //   async getBlog() {
+  //     const response = await BlogsService.getBlog({
+  //       id: this.$route.params.id
+  //     });
+  //     this.title = response.data.title;
+  //     this.description = response.data.description;
+  //   },
+  //   async updateBlog() {
+  //     await BlogsService.updateBlog({
+  //       id: this.$route.params.id,
+  //       title: this.title,
+  //       description: this.description
+  //     });
+  //     this.$router.push({ name: "Blogs" });
+  //   }
+  // }
 };
 </script>
 <style type="text/css">

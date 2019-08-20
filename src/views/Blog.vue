@@ -1,6 +1,6 @@
 <template>
   <div class="Blogs">
-    <h1>Blogs</h1>
+    <!-- <h1>Blogs</h1>
     <div v-if="Blogs.length > 0" class="table-wrap">
       <div>
         <router-link v-bind:to="{ name: 'NewBlog' }" class>Add Blog</router-link>
@@ -26,28 +26,28 @@
       <br />
       <br />
       <router-link v-bind:to="{ name: 'NewBlog' }" class="add_Blog_link">Add Blog</router-link>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
-import BlogsService from "../api/services/BlogsService";
+// import BlogsService from "../api/services/BlogsService";
 export default {
-  name: "Blogs",
-  data() {
-    return {
-      Blogs: []
-    };
-  },
-  mounted() {
-    this.getBlogs();
-  },
-  methods: {
-    async getBlogs() {
-      const response = await BlogsService.fetchBlogs();
-      this.Blogs = response.data.Blogs;
-    }
-  }
+  name: "Blogs"
+  // data() {
+  //   return {
+  //     Blogs: []
+  //   };
+  // },
+  // mounted() {
+  //   this.getBlogs();
+  // },
+  // methods: {
+  //   async getBlogs() {
+  //     const response = await BlogsService.fetchBlogs();
+  //     this.Blogs = response.data.Blogs;
+  //   }
+  // }
 };
 </script>
 <style type="text/css">
