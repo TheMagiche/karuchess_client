@@ -33,12 +33,15 @@
 </template>
 
 <script>
-import axios from "axios";
+// import store from "../store";
+import Vue from "vue";
+import Axios from "axios";
 
 export default {
   name: "Login",
   data() {
     return {
+      state: "",
       login: {},
       errors: []
     };
@@ -46,22 +49,20 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      axios
-        .post(`/api/auth/login`, {
-          username: this.login.username,
-          password: this.login.password
-        })
-        .then(response => {
-          localStorage.setItem("jwtToken", response.data.token);
-          this.$router.push({
-            name: "Profile"
-          });
-        })
-        .catch(e => {
-          // eslint-disable-next-line
-          console.log(e);
-          this.errors.push(e);
-        });
+      let username = this.login.username;
+      let password = this.login.password;
+      Vue.prototype.$http = Axios;
+      const token = localStorage.getItem("jwtToken");
+      if (token) {
+        Vue.prototype.$http.defaults.headers.common["Authorization"] = token;
+      }
+      this.$store
+        .dispatch("login", { username, password })
+
+        .then(() => this.$router.push({ name: "Home" }))
+        .catch((
+          err // eslint-disable-next-line
+        ) => console.log(err));
     },
     register() {
       this.$router.push({
