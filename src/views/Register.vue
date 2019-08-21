@@ -57,38 +57,34 @@
 </template>
 
 <script>
-import axios from "axios";
+// import store from "../store";
+// import Vue from "vue";
+// import Axios from "axios";
 
 export default {
   name: "Register",
   data() {
     return {
       register: {},
-      errors: [],
-      response: null
+      errors: []
     };
   },
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      axios
-        .post(`/api/auth/register`, {
-          username: this.register.username,
-          password: this.register.password,
-          email: this.register.email,
-          lichessId: this.register.lichessId
-        })
-        .then(response => {
-          alert("Registered successfully");
-          this.response = response;
-          this.$router.push({
-            name: "Login"
-          });
-        })
-        .catch(e => {
+      let data = {
+        username: this.register.username,
+        email: this.register.email,
+        password: this.register.password,
+        lichessId: this.register.lichessId
+      };
+      this.$store
+        .dispatch("register", data)
+        .then(() => this.$router.push({ name: "Profile" }))
+        .catch(err => {
+          this.err.push(err);
           // eslint-disable-next-line
-          console.log(e);
-          this.errors.push(e);
+          console.log(err);
         });
     }
   }

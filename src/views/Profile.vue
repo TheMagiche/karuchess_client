@@ -13,8 +13,6 @@
 </template>
 
 <script>
-// import { authenticationService, userService } from "../api/_services";
-
 import { LichessAPIService } from "../api/lichessAPIservice";
 const lichessapiService = new LichessAPIService();
 export default {
@@ -29,7 +27,7 @@ export default {
 
   methods: {
     getLichessData() {
-      let username = "themagiche";
+      let username = this.$store.getters.user_lichessID;
       lichessapiService
         .getuser(username)
         .then(data => {
