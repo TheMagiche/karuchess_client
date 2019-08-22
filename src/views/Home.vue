@@ -1,15 +1,22 @@
 <template>
-  <div class="home">Karatina Chess Website</div>
+  <div class="outer-wrapper">
+    <app-nav></app-nav>
+    <div id="Home">Karatina Chess Website</div>
+    <app-footer></app-footer>
+  </div>
 </template>
-
+<style lang="">
+</style>
 <script>
 // @ is an alias to /src
-// import HelloWorld from "@/components/HelloWorld.vue";
 
+import AppNav from "../components/AppNav";
+import AppFooter from "../components/AppFooter";
 export default {
-  name: "home",
+  name: "Home",
   components: {
-    // HelloWorld
+    "app-nav": AppNav,
+    "app-footer": AppFooter
   }
 };
 </script>
