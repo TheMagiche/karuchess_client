@@ -1,22 +1,32 @@
 <template>
-  <div>
-    <h1>Profile</h1>
-    <p>Welcome User.</p>
-    <p>{{ lichess }}</p>
-    <!-- <div>
+  <div class="outer-wrapper">
+    <app-nav></app-nav>
+    <div id="Profile">
+      <h1>Profile</h1>
+      <p>Welcome User.</p>
+      <p>{{ lichess }}</p>
+      <!-- <div>
       All users from secure (admin only) api end point:
       <ul v-if="users.length">
         <li v-for="user in users" :key="user.id">{{user.firstName + ' ' + user.lastName}}</li>
       </ul>
-    </div>-->
+      </div>-->
+    </div>
+    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
+import AppNav from "../components/AppNav";
+import AppFooter from "../components/AppFooter";
 import { LichessAPIService } from "../api/lichessAPIservice";
 const lichessapiService = new LichessAPIService();
 export default {
   name: "Profile",
+  components: {
+    "app-nav": AppNav,
+    "app-footer": AppFooter
+  },
   data() {
     return {
       // user: authenticationService.currentUserValue,
