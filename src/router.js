@@ -91,6 +91,9 @@ const router = new Router({
     {
       path: "/site-login",
       name: "SiteLogin",
+      meta: {
+        guest: true
+      },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -100,6 +103,9 @@ const router = new Router({
     {
       path: "/site-register",
       name: "SiteRegister",
+      meta: {
+        guest: true
+      },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -107,8 +113,9 @@ const router = new Router({
         import(/* webpackChunkName: "about" */ "./views/SiteRegister.vue")
     },
     {
-      path: "/admin",
+      path: "/site-admin/:adminName",
       name: "Admin",
+      props: true,
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -118,19 +125,26 @@ const router = new Router({
         requiresAuth: true,
         is_admin: true
       }
+    },
+    {
+      path: "/site-profile/:username",
+      name: "Profile",
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/Profile.vue"),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: "*",
+      name: "NotFound",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./pages/NotFoundPage.vue")
     }
-    // {
-    //   path: "/profile",
-    //   name: "Profile",
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "./views/Profile.vue"),
-    //   meta: {
-    //     requiresAuth: true
-    //   }
-    // }
   ]
 });
 
@@ -148,34 +162,76 @@ router.beforeEach((to, from, next) => {
 
 // router.beforeEach((to, from, next) => {
 //   if (to.matched.some(record => record.meta.requiresAuth)) {
-//     if (localStorage.getItem('jwt') == null) {
+//     if (localStorage.getItem("jwtToken") == null) {
 //       next({
-//         path: '/login',
+//         path: "/site-login",
 //         params: { nextUrl: to.fullPath }
-//       })
+//       });
 //     } else {
-//       let user = JSON.parse(localStorage.getItem('user'))
+//       let user = JSON.parse(localStorage.getItem("username"));
 //       if (to.matched.some(record => record.meta.is_admin)) {
 //         if (user.is_admin == 1) {
-//           next()
-//         }
-//         else {
-//           next({ name: 'userboard' })
+//           next();
+//         } else {
+//           next({ name: "Dashboard" });
 //         }
 //       } else {
-//         next()
+//         next();
 //       }
 //     }
-//   } else if (to.matched.some(record => record.meta.guest)) {
-//     if (localStorage.getItem('jwt') == null) {
-//       next()
-//     }
-//     else {
-//       next({ name: 'userboard' })
+//   } else if (to.matched.some(record => record.meta.user)) {
+//     if (localStorage.getItem("JwtToken") == null) {
+//       next();
+//     } else {
+//       next({ name: "Profile" });
 //     }
 //   } else {
-//     next()
+//     next();
 //   }
-// })
+// });
 
 export default router;
+
+// let router = new Router({
+//   mode: 'history',
+//   routes: [
+//     {
+//       path: '/',
+//       name: 'HelloWorld',
+//       component: HelloWorld
+//     },
+//     {
+//       path: '/login',
+//       name: 'login',
+//       component: Login,
+//       meta: {
+//         guest: true
+//       }
+//     },
+//     {
+//       path: '/register',
+//       name: 'register',
+//       component: Register,
+//       meta: {
+//         guest: true
+//       }
+//     },
+//     {
+//       path: '/dashboard',
+//       name: 'userboard',
+//       component: UserBoard,
+//       meta: {
+//         requiresAuth: true
+//       }
+//     },
+//     {
+//       path: '/admin',
+//       name: 'admin',
+//       component: Admin,
+//       meta: {
+//         requiresAuth: true,
+//         is_admin: true
+//       }
+//     },
+//   ]
+// })

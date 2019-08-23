@@ -59,6 +59,7 @@ export default new Vuex.Store({
             localStorage.setItem("role", role);
             axios.defaults.headers.common["Authorization"] = token;
             context.commit("auth_login_success", token);
+
             resolve(resp);
           })
           .catch(err => {
@@ -78,6 +79,10 @@ export default new Vuex.Store({
         axios({
           url: "/api/auth/register",
           data: {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            age: user.age,
+            regNo: user.regNO,
             username: user.username,
             email: user.email,
             password: user.password,
@@ -99,24 +104,32 @@ export default new Vuex.Store({
           });
       });
     },
-    logout({ commit }) {
-      return new Promise(resolve => {
-        commit("logout");
-        localStorage.removeItem("jwtToken");
-        localStorage.removeItem("username");
-        localStorage.removeItem("email");
-        localStorage.removeItem("role");
-        localStorage.removeItem("lichessId");
-        delete axios.defaults.headers.common["Authorization"];
-        resolve();
-      });
+    async logout(context) {
+      try {
+        await new Promise(resolve => {
+          context.commit("logout");
+          localStorage.removeItem("jwtToken");
+          localStorage.removeItem("username");
+          localStorage.removeItem("email");
+          localStorage.removeItem("role");
+          localStorage.removeItem("lichessId");
+          delete axios.defaults.headers.common["Authorization"];
+          resolve();
+        });
+      } catch (err) {
+        context.commit("auth_error", err);
+      }
     }
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     isUser: state => {
-      if (state.role == "User" || state.role == "Admin") return true;
+      if (state.role == "User" || state.role == "Admin") {
+        return true;
+      } else {
+        return false;
+      }
     },
     isAdmin: state => {
       if (state.role == "Admin") {
@@ -127,6 +140,9 @@ export default new Vuex.Store({
     },
     user_lichessID: state => {
       return state.lichessId;
+    },
+    user_username: state => {
+      return state.username;
     }
   }
 });

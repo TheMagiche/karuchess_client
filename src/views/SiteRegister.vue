@@ -16,6 +16,42 @@
               horizontal
               :label-cols="4"
               breakpoint="md"
+              label="Enter Firstname"
+            >
+              <b-form-input id="firstname" :state="state" v-model.trim="register.firstname"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter School Registration Number"
+            >
+              <b-form-input id="regNO" :state="state" v-model.trim="register.regNO"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter Lastname"
+            >
+              <b-form-input id="lastname" :state="state" v-model.trim="register.lastname"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter Age"
+            >
+              <b-form-input id="age" :state="state" v-model.trim="register.age"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
               label="Enter Username"
             >
               <b-form-input id="username" :state="state" v-model.trim="register.username"></b-form-input>
@@ -81,6 +117,10 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       let data = {
+        firstname: this.register.firstname,
+        lastname: this.register.lastname,
+        age: this.register.age,
+        regNO: this.register.regNO,
         username: this.register.username,
         email: this.register.email,
         password: this.register.password,
@@ -88,7 +128,7 @@ export default {
       };
       this.$store
         .dispatch("register", data)
-        .then(() => this.$router.push({ name: "Profile" }))
+        .then(() => this.$router.push({ name: "Login" }))
         .catch(err => {
           this.err.push(err);
           // eslint-disable-next-line

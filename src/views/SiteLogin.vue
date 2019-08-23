@@ -58,9 +58,11 @@ export default {
     return {
       state: "",
       login: {},
-      errors: []
+      errors: [],
+      logIN: false
     };
   },
+
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
@@ -74,7 +76,11 @@ export default {
       this.$store
         .dispatch("login", { username, password })
 
-        .then(() => this.$router.push({ name: "Home" }))
+        .then(() => {
+          this.$router.push({
+            name: "Home"
+          });
+        })
         .catch((
           err // eslint-disable-next-line
         ) => console.log(err));
