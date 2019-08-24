@@ -1,8 +1,8 @@
 <template>
   <div class="outer-wrapper">
-    <app-nav></app-nav>
+    <!-- <app-nav></app-nav> -->
     <div id="Admin">
-      <h1>Admin</h1>
+      <h1>Admin - {{user}}</h1>
       <p>This page can only be accessed by administrators.</p>
       <p>{{ lichess }}</p>
       <!-- <div>
@@ -12,25 +12,30 @@
       </ul>
       </div>-->
     </div>
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
   </div>
 </template>
 
 <script>
-import AppNav from "../components/AppNav";
-import AppFooter from "../components/AppFooter";
+// import AppNav from "../components/AppNav";
+// import AppFooter from "../components/AppFooter";
 import { LichessAPIService } from "../api/lichessAPIservice";
 const lichessapiService = new LichessAPIService();
 export default {
   name: "Admin",
-  components: {
-    "app-nav": AppNav,
-    "app-footer": AppFooter
+  // components: {
+  //   "app-nav": AppNav,
+  //   "app-footer": AppFooter
+  // },
+  props: {
+    adminName: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
-      // user: authenticationService.currentUserValue,
-      // users: []
+      user: this.$store.getters.user_username,
       lichess: {}
     };
   },

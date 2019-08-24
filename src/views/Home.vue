@@ -1,8 +1,8 @@
 <template>
   <div class="outer-wrapper">
-    <app-nav></app-nav>
-    <div id="Home">Karatina Chess Website</div>
-    <app-footer></app-footer>
+    <div id="Home">
+      <p>Welcome to Karatina Chess Club: {{ getUsername }}</p>
+    </div>
   </div>
 </template>
 <style lang="">
@@ -10,13 +10,22 @@
 <script>
 // @ is an alias to /src
 
-import AppNav from "../components/AppNav";
-import AppFooter from "../components/AppFooter";
 export default {
   name: "Home",
-  components: {
-    "app-nav": AppNav,
-    "app-footer": AppFooter
-  }
+
+  data() {
+    return {};
+  },
+  computed: {
+    getUsername: function() {
+      let username = this.$store.getters.user_username;
+      if (username == localStorage.getItem("username")) {
+        return username;
+      } else {
+        return "Guest";
+      }
+    }
+  },
+  methods: {}
 };
 </script>
