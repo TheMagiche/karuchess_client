@@ -1,6 +1,5 @@
 <template>
   <div class="outer-wrapper">
-    <app-nav></app-nav>
     <div id="SiteLogin">
       <b-row class="justify-content-md-center">
         <b-col cols="6">
@@ -39,21 +38,16 @@
         </b-col>
       </b-row>
     </div>
-    <app-footer></app-footer>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import Axios from "axios";
-import AppNav from "../components/AppNav";
-import AppFooter from "../components/AppFooter";
+
 export default {
   name: "SiteLogin",
-  components: {
-    "app-nav": AppNav,
-    "app-footer": AppFooter
-  },
+
   data() {
     return {
       state: "",

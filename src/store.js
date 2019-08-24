@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     status: "",
-    token: localStorage.getItem("jwtToken") || "",
+    token: localStorage.getItem("jwtToken") || null,
     username: localStorage.getItem("username") || "",
     email: localStorage.getItem("email") || "",
     lichessId: localStorage.getItem("lichessId") || "",
@@ -24,17 +24,22 @@ export default new Vuex.Store({
     auth_login_success(state, token) {
       state.status = "success";
       state.token = token;
+      state.username = localStorage.getItem("username");
+      state.email = localStorage.getItem("email");
+      state.lichessId = localStorage.getItem("lichessId");
+      state.role = localStorage.getItem("role");
     },
     auth_error(state) {
       state.status = "error";
     },
     logout(state) {
       state.status = "";
-      state.token = "";
+      state.token = null;
       state.username = "";
       state.email = "";
       state.lichessId = "";
       state.role = "";
+      // console.log(resp);
     }
   },
   actions: {
@@ -104,21 +109,23 @@ export default new Vuex.Store({
           });
       });
     },
-    async logout(context) {
-      try {
-        await new Promise(resolve => {
+    logout(context) {
+      return new Promise(resolve => {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("username");
+        localStorage.removeItem("email");
+        localStorage.removeItem("role");
+        localStorage.removeItem("lichessId");
+        delete axios.defaults.headers.common["Authorization"];
+        resolve();
+      })
+        .then(() => {
           context.commit("logout");
-          localStorage.removeItem("jwtToken");
-          localStorage.removeItem("username");
-          localStorage.removeItem("email");
-          localStorage.removeItem("role");
-          localStorage.removeItem("lichessId");
-          delete axios.defaults.headers.common["Authorization"];
-          resolve();
+        })
+        .catch(err => {
+          context.commit("auth_error", err);
+          localStorage.removeItem("token");
         });
-      } catch (err) {
-        context.commit("auth_error", err);
-      }
     }
   },
   getters: {

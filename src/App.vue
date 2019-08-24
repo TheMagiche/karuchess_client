@@ -1,15 +1,8 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/about">About</router-link>
-    </div>-->
-    <!-- <nav v-if="currentUser" class="navbar navbar-expand navbar-dark bg-dark"> -->
-    <notifications></notifications>
-
-    <!-- <app-nav></app-nav> -->
+    <app-nav></app-nav>
     <router-view :key="$route.fullPath"></router-view>
-    <!-- <app-footer></app-footer>+ -->
+    <app-footer></app-footer>
   </div>
 </template>
 
@@ -29,14 +22,14 @@
 }
 </style>
 <script>
-// import AppNav from "./components/AppNav";
-// import AppFooter from "./components/AppFooter";
+import AppNav from "./components/AppNav";
+import AppFooter from "./components/AppFooter";
 export default {
   name: "app",
-  // components: {
-  //   "app-nav": AppNav,
-  //   "app-footer": AppFooter
-  // },
+  components: {
+    "app-nav": AppNav,
+    "app-footer": AppFooter
+  },
   data() {
     return {};
   },

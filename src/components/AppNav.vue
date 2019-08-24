@@ -74,7 +74,7 @@
         </ul>
 
         <ul class="navbar-nav align-items-lg-center ml-lg-auto">
-          <a class="nav-log-link">Welcome: {{ username }}</a>
+          <a class="nav-log-link">Welcome: {{ getUsername }}</a>
         </ul>
         <a v-if="isLoggedIn" @click="logout" class="nav-log-link">| Logout</a>
       </base-nav>
@@ -104,20 +104,18 @@ export default {
     // BaseDropdown
   },
   data() {
-    return {
-      username: "",
-      isLoggedIn: this.$store.getters.isLoggedIn,
-      isAdmin: this.isanAdmin(),
-      isUser: this.isaUser()
-    };
+    return {};
   },
   computed: {
     getUsername: function() {
-      return this.$store.getters.user_username;
-    }
-  },
-  methods: {
-    isanAdmin: function() {
+      let username = this.$store.getters.user_username;
+      if (username == localStorage.getItem("username")) {
+        return username;
+      } else {
+        return "Guest";
+      }
+    },
+    isAdmin: function() {
       let admin = this.$store.getters.isAdmin;
       const username = localStorage.getItem("username");
       if (admin === true && username) {
@@ -125,7 +123,7 @@ export default {
       }
       return false;
     },
-    isaUser: function() {
+    isUser: function() {
       let user = this.$store.getters.isUser;
       const username = localStorage.getItem("username");
       if (user === true && username) {
@@ -133,10 +131,14 @@ export default {
       }
       return false;
     },
-
+    isLoggedIn: function() {
+      return this.$store.getters.isLoggedIn;
+    }
+  },
+  methods: {
     logout: function() {
       this.$store.dispatch("logout").then(() => {
-        this.$router.push("/site-login");
+        this.$router.push({ name: "Home" });
       });
     },
     checkOudatedToken: function() {
@@ -153,21 +155,10 @@ export default {
           throw err;
         });
       });
-    },
-    checkLogginStatus: function() {
-      const token = localStorage.getItem("jwtToken");
-      const username = localStorage.getItem("username");
-      if (token && username) {
-        this.username = username;
-      } else {
-        this.username = "Guest";
-      }
     }
   },
   created() {
     this.checkOudatedToken();
-    this.checkLogginStatus();
-    // this.checkStatuses();
   }
 };
 </script>

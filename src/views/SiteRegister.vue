@@ -1,6 +1,6 @@
 <template>
   <div class="outer-wrapper">
-    <app-nav></app-nav>
+    <!-- <app-nav></app-nav> -->
     <div id="SiteRegister">
       <b-row class="justify-content-md-center">
         <b-col cols="6">
@@ -94,19 +94,19 @@
         </b-col>
       </b-row>
     </div>
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
   </div>
 </template>
 
 <script>
-import AppNav from "../components/AppNav";
-import AppFooter from "../components/AppFooter";
+// import AppNav from "../components/AppNav";
+// import AppFooter from "../components/AppFooter";
 export default {
   name: "SiteRegister",
-  components: {
-    "app-nav": AppNav,
-    "app-footer": AppFooter
-  },
+  // components: {
+  //   "app-nav": AppNav,
+  //   "app-footer": AppFooter
+  // },
   data() {
     return {
       register: {},
