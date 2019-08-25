@@ -20,6 +20,9 @@ export default new Vuex.Store({
     auth_reg_success(state, token) {
       state.status = "success";
       state.token = token;
+      state.username = localStorage.getItem("username");
+      state.email = localStorage.getItem("email");
+      state.lichessId = localStorage.getItem("lichessId");
     },
     auth_login_success(state, token) {
       state.status = "success";
@@ -97,7 +100,15 @@ export default new Vuex.Store({
         })
           .then(resp => {
             const token = resp.data.token;
+            let username = resp.data.username;
+            let email = resp.data.email;
+            let lichessId = resp.data.lichess_id;
+
             localStorage.setItem("jwtToken", token);
+            localStorage.setItem("username", username);
+            localStorage.setItem("email", email);
+            localStorage.setItem("lichessId", lichessId);
+
             axios.defaults.headers.common["Authorization"] = token;
             context.commit("auth_reg_success", token);
             resolve(resp);

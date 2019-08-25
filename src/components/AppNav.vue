@@ -20,10 +20,12 @@
 
         <div class="row" slot="content-header" slot-scope="{closeMenu}">
           <div class="col-6 collapse-brand">
-            <a href="/" class="brand">
-              <!-- <img src="@/assets/img/brand/blue.png" />  -->
-              Karatina Knights
-            </a>
+            <router-link to="/about" class="nav-link" replace>
+              <!-- <i class="ni ni-single-copy-04"></i> -->
+              <span class="brand">Karatina Knights
+                
+              </span>
+            </router-link>
           </div>
           <div class="col-6 collapse-close">
             <close-button @click="closeMenu"></close-button>
