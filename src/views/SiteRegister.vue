@@ -1,6 +1,6 @@
 <template>
   <div class="outer-wrapper">
-    <app-nav></app-nav>
+    <!-- <app-nav></app-nav> -->
     <div id="SiteRegister">
       <b-row class="justify-content-md-center">
         <b-col cols="6">
@@ -11,6 +11,42 @@
             </div>
           </div>
           <b-form @submit="onSubmit">
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter Firstname"
+            >
+              <b-form-input id="firstname" :state="state" v-model.trim="register.firstname"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter School Registration Number"
+            >
+              <b-form-input id="regNO" :state="state" v-model.trim="register.regNO"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter Lastname"
+            >
+              <b-form-input id="lastname" :state="state" v-model.trim="register.lastname"></b-form-input>
+            </b-form-group>
+            <b-form-group
+              id="fieldsetHorizontal"
+              horizontal
+              :label-cols="4"
+              breakpoint="md"
+              label="Enter Age"
+            >
+              <b-form-input id="age" :state="state" v-model.trim="register.age"></b-form-input>
+            </b-form-group>
             <b-form-group
               id="fieldsetHorizontal"
               horizontal
@@ -58,19 +94,19 @@
         </b-col>
       </b-row>
     </div>
-    <app-footer></app-footer>
+    <!-- <app-footer></app-footer> -->
   </div>
 </template>
 
 <script>
-import AppNav from "../components/AppNav";
-import AppFooter from "../components/AppFooter";
+// import AppNav from "../components/AppNav";
+// import AppFooter from "../components/AppFooter";
 export default {
   name: "SiteRegister",
-  components: {
-    "app-nav": AppNav,
-    "app-footer": AppFooter
-  },
+  // components: {
+  //   "app-nav": AppNav,
+  //   "app-footer": AppFooter
+  // },
   data() {
     return {
       register: {},
@@ -81,6 +117,10 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       let data = {
+        firstname: this.register.firstname,
+        lastname: this.register.lastname,
+        age: this.register.age,
+        regNO: this.register.regNO,
         username: this.register.username,
         email: this.register.email,
         password: this.register.password,
@@ -88,7 +128,7 @@ export default {
       };
       this.$store
         .dispatch("register", data)
-        .then(() => this.$router.push({ name: "Profile" }))
+        .then(() => this.$router.push({ name: "Login" }))
         .catch(err => {
           this.err.push(err);
           // eslint-disable-next-line

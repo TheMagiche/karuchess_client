@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     status: "",
-    token: localStorage.getItem("jwtToken") || "",
+    token: localStorage.getItem("jwtToken") || null,
     username: localStorage.getItem("username") || "",
     email: localStorage.getItem("email") || "",
     lichessId: localStorage.getItem("lichessId") || "",
@@ -24,17 +24,22 @@ export default new Vuex.Store({
     auth_login_success(state, token) {
       state.status = "success";
       state.token = token;
+      state.username = localStorage.getItem("username");
+      state.email = localStorage.getItem("email");
+      state.lichessId = localStorage.getItem("lichessId");
+      state.role = localStorage.getItem("role");
     },
     auth_error(state) {
       state.status = "error";
     },
     logout(state) {
       state.status = "";
-      state.token = "";
+      state.token = null;
       state.username = "";
       state.email = "";
       state.lichessId = "";
       state.role = "";
+      // console.log(resp);
     }
   },
   actions: {
@@ -59,6 +64,7 @@ export default new Vuex.Store({
             localStorage.setItem("role", role);
             axios.defaults.headers.common["Authorization"] = token;
             context.commit("auth_login_success", token);
+
             resolve(resp);
           })
           .catch(err => {
@@ -78,6 +84,10 @@ export default new Vuex.Store({
         axios({
           url: "/api/auth/register",
           data: {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            age: user.age,
+            regNo: user.regNO,
             username: user.username,
             email: user.email,
             password: user.password,
@@ -99,9 +109,8 @@ export default new Vuex.Store({
           });
       });
     },
-    logout({ commit }) {
+    logout(context) {
       return new Promise(resolve => {
-        commit("logout");
         localStorage.removeItem("jwtToken");
         localStorage.removeItem("username");
         localStorage.removeItem("email");
@@ -109,14 +118,25 @@ export default new Vuex.Store({
         localStorage.removeItem("lichessId");
         delete axios.defaults.headers.common["Authorization"];
         resolve();
-      });
+      })
+        .then(() => {
+          context.commit("logout");
+        })
+        .catch(err => {
+          context.commit("auth_error", err);
+          localStorage.removeItem("token");
+        });
     }
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
     isUser: state => {
-      if (state.role == "User" || state.role == "Admin") return true;
+      if (state.role == "User" || state.role == "Admin") {
+        return true;
+      } else {
+        return false;
+      }
     },
     isAdmin: state => {
       if (state.role == "Admin") {
@@ -127,6 +147,9 @@ export default new Vuex.Store({
     },
     user_lichessID: state => {
       return state.lichessId;
+    },
+    user_username: state => {
+      return state.username;
     }
   }
 });
